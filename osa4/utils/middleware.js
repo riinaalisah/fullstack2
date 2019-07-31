@@ -9,9 +9,24 @@ const errorHandler = (error, req, res, next) => {
     return res.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
+  } else if (error.name === 'JsonWebTokenError') {
+    return res.status(401).json({ error: 'token missing or invalid' })
   }
   
   next(error)
 }
 
-module.exports = { unknownEndpoint, errorHandler }
+const tokenExtractor = (req, res, next) => {
+  console.log('in token extractor')
+  const authorization = req.get('authorization')
+  try {
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+      req.token = authorization.substring(7)
+    }
+  } catch(exception) {
+    next(exception)
+  }
+  next()
+}
+
+module.exports = { unknownEndpoint, errorHandler, tokenExtractor }
