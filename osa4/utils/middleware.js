@@ -17,7 +17,6 @@ const errorHandler = (error, req, res, next) => {
 }
 
 const tokenExtractor = (req, res, next) => {
-  console.log('in token extractor')
   const authorization = req.get('authorization')
   try {
     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
