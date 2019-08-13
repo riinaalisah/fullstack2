@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import Notification from '../components/Notification'
 import { Container, Button, Form, Header } from 'semantic-ui-react'
 
-const LoginForm = ({
-  username,
-  password,
-  handleSubmit
-}) => {
+const LoginForm = (props) => {
+
+  const username = props.username
+  const password = props.password
+  const handleSubmit = props.handleSubmit
 
   LoginForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired
@@ -15,6 +17,7 @@ const LoginForm = ({
   return (
     <Container>
       <Header as='h2'>Log in to application</Header>
+      <Notification type={props.notification.type} message={props.notification.message} />
       <Form onSubmit={handleSubmit}>
         <Form.Field>
           <label>username</label>
@@ -40,4 +43,10 @@ const LoginForm = ({
   )
 }
 
-export default LoginForm
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification
+  }
+}
+
+export default connect(mapStateToProps)(LoginForm)

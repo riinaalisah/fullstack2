@@ -106,7 +106,6 @@ const App = (props) => {
               <Button onClick={handleLogout}>logout</Button>
             </Menu.Item>
           </Menu>
-          <Notification type={props.notification.type} message={props.notification.message} />
           <Route exact path='/' render={() => <Home />} />
           <Route exact path='/login' render={() =>
             props.loggedIn ? <Redirect to='/' /> : <LoginForm
